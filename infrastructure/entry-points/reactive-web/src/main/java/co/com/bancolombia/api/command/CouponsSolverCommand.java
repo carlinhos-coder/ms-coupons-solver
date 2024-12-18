@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping(value = "/coupons")
+@RequestMapping(value = "/coupon")
 @AllArgsConstructor
 public class CouponsSolverCommand {
     private final CouponsSolverUseCase couponsSolverUseCase;
