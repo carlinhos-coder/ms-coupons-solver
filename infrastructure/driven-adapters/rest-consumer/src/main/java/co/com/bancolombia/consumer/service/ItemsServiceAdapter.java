@@ -17,6 +17,7 @@ public class ItemsServiceAdapter implements ItemsService {
     String baseHost;
     @Value("${adapter.restconsumer.items.uri}")
     String baseUriAuthenticate;
+    private static final String PRICE = "price";
 
     @Override
     public Mono<Float> getItemPrice(String id) {
@@ -27,7 +28,7 @@ public class ItemsServiceAdapter implements ItemsService {
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
                 .bodyToMono(JsonNode.class)
-                .map(jsonNode -> jsonNode.get("price").floatValue())
+                .map(jsonNode -> jsonNode.get(PRICE).floatValue())
                 .doOnError(error -> log.error("Error fetching item price", error));
     }
 }

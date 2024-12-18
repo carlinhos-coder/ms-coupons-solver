@@ -24,16 +24,16 @@ public class CouponsSolverUseCase {
                 .flatMap(itemId -> itemsService.getItemPrice(itemId)
                         .map(price -> Map.entry(itemId, price)))
                 .collectMap(Map.Entry::getKey, Map.Entry::getValue)
-                .flatMap(items -> calculate(items, amount)
+                .flatMap(stringFloatMap -> calculate(stringFloatMap, amount)
                         .flatMap(selectedItems -> {
                             float total = selectedItems.stream()
-                                    .map(items::get)
+                                    .map(stringFloatMap::get)
                                     .reduce(0f, Float::sum);
                             return Mono.just(new CouponsResult(selectedItems, total));
                         }));
     }
 
-    public Mono<List<String>> calculate(Map<String, Float> items, Float amount) {
+    public static Mono<List<String>> calculate(Map<String, Float> items, Float amount) {
         return Flux.fromIterable(items.entrySet())
                 .map(entry -> new Items(entry.getKey(), entry.getValue()))
                 .sort((item1, item2) -> Float.compare(item2.getPrice(), item1.getPrice()))
