@@ -12,6 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 public class CouponsResultDTO {
-    private List<String> itemIds;
+    private List<String> item_ids;
     private float total;
 }

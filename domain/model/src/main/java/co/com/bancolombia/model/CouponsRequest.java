@@ -11,6 +11,6 @@ import java.util.List;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 public class CouponsRequest {
-    private List<String> itemIds;
+    private List<String> item_ids;
     private float amount;
 }
