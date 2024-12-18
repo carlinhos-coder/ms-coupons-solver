@@ -2,7 +2,6 @@ package co.com.bancolombia.api.command;
 
 import co.com.bancolombia.api.dto.CouponsResultDTO;
 import co.com.bancolombia.model.CouponsRequest;
-import co.com.bancolombia.model.CouponsResult;
 import co.com.bancolombia.usecase.CouponsSolverUseCase;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
