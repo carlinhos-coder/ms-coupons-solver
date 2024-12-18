@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping(value = "/coupon")
+@RequestMapping(value = "/coupon/")
 @AllArgsConstructor
 public class CouponsSolverCommand {
     private final CouponsSolverUseCase couponsSolverUseCase;
     private ObjectMapper objectMapper;
 
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public Mono<CouponsResultDTO> discountPoints(@RequestBody CouponsRequest couponsRequest) {
+    public Mono<CouponsResultDTO> processCoupon(@RequestBody CouponsRequest couponsRequest) {
         return couponsSolverUseCase.processCoupon(couponsRequest.getItem_ids(), couponsRequest.getAmount())
                 .map(couponsResult -> objectMapper.convertValue(couponsResult, CouponsResultDTO.class));
     }

@@ -1,5 +1,7 @@
 package co.com.bancolombia.usecase;
 
+import co.com.bancolombia.CouponsErrorEnums;
+import co.com.bancolombia.exceptions.CouponsException;
 import co.com.bancolombia.model.CouponsResult;
 import co.com.bancolombia.model.Items;
 import co.com.bancolombia.service.ItemsService;
@@ -16,15 +18,19 @@ import java.util.logging.Logger;
 @RequiredArgsConstructor
 public class CouponsSolverUseCase {
     private final ItemsService itemsService;
+    private static final Integer ZERO = 0;
     private final Logger logger = Logger.getLogger(this.getClass().getName());
 
     public Mono<CouponsResult> processCoupon(List<String> itemIds, Float amount) {
         logger.log(Level.INFO, "Start CouponsSolverUseCase.processCoupon(): {0}", itemIds);
         return Flux.fromIterable(itemIds)
                 .flatMap(itemId -> itemsService.getItemPrice(itemId)
-                        .map(price -> Map.entry(itemId, price)))
+                        .map(price -> Map.entry(itemId, price))
+                        .filterWhen(entry -> Mono.just(entry.getValue() > ZERO)))
                 .collectMap(Map.Entry::getKey, Map.Entry::getValue)
                 .flatMap(stringFloatMap -> calculate(stringFloatMap, amount)
+                        .filter(selectedItems -> !selectedItems.isEmpty())
+                        .switchIfEmpty(Mono.error(new CouponsException(CouponsErrorEnums.NOT_FOUND)))
                         .flatMap(selectedItems -> {
                             float total = selectedItems.stream()
                                     .map(stringFloatMap::get)

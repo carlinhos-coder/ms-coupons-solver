@@ -29,6 +29,9 @@ public class ItemsServiceAdapter implements ItemsService {
                 .retrieve()
                 .bodyToMono(JsonNode.class)
                 .map(jsonNode -> jsonNode.get(PRICE).floatValue())
-                .doOnError(error -> log.error("Error fetching item price", error));
+                .onErrorResume(error -> {
+                    log.error("Error fetching item price for id {}: {}", id, error.getMessage());
+                    return Mono.just(0.0f);
+                });
     }
 }
