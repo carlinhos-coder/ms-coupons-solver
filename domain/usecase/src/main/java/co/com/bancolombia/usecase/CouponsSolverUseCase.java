@@ -1,6 +1,7 @@
 package co.com.bancolombia.usecase;
 
-import co.com.bancolombia.CouponsErrorEnums;
+import co.com.bancolombia.enums.CouponsEnum;
+import co.com.bancolombia.enums.CouponsErrorEnums;
 import co.com.bancolombia.exceptions.CouponsException;
 import co.com.bancolombia.model.CouponsResult;
 import co.com.bancolombia.model.Items;
@@ -18,7 +19,6 @@ import java.util.logging.Logger;
 @RequiredArgsConstructor
 public class CouponsSolverUseCase {
     private final ItemsService itemsService;
-    private static final Integer ZERO = 0;
     private final Logger logger = Logger.getLogger(this.getClass().getName());
 
     public Mono<CouponsResult> processCoupon(List<String> itemIds, Float amount) {
@@ -26,7 +26,7 @@ public class CouponsSolverUseCase {
         return Flux.fromIterable(itemIds)
                 .flatMap(itemId -> itemsService.getItemPrice(itemId)
                         .map(price -> Map.entry(itemId, price))
-                        .filterWhen(entry -> Mono.just(entry.getValue() > ZERO)))
+                        .filterWhen(entry -> Mono.just(entry.getValue() > CouponsEnum.ZERO.getIntValue())))
                 .collectMap(Map.Entry::getKey, Map.Entry::getValue)
                 .flatMap(stringFloatMap -> calculate(stringFloatMap, amount)
                         .filter(selectedItems -> !selectedItems.isEmpty())
@@ -34,7 +34,7 @@ public class CouponsSolverUseCase {
                         .flatMap(selectedItems -> {
                             float total = selectedItems.stream()
                                     .map(stringFloatMap::get)
-                                    .reduce(0f, Float::sum);
+                                    .reduce(CouponsEnum.ZERO_FLOAT.getFloatValue(), Float::sum);
                             return Mono.just(new CouponsResult(selectedItems, total));
                         }));
     }
