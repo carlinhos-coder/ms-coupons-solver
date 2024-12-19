@@ -5,13 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-public class CouponsResult {
-    private List<String> item_ids;
-    private float total;
+public class ItemsApi {
+    private float price;
 }

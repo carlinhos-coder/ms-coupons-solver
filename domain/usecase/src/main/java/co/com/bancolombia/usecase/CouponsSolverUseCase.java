@@ -3,7 +3,7 @@ package co.com.bancolombia.usecase;
 import co.com.bancolombia.enums.CouponsEnum;
 import co.com.bancolombia.enums.CouponsErrorEnums;
 import co.com.bancolombia.exceptions.CouponsException;
-import co.com.bancolombia.model.CouponsResult;
+import co.com.bancolombia.model.CouponsReturned;
 import co.com.bancolombia.model.Items;
 import co.com.bancolombia.service.ItemsService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public class CouponsSolverUseCase {
     private final ItemsService itemsService;
     private final Logger logger = Logger.getLogger(this.getClass().getName());
 
-    public Mono<CouponsResult> processCoupon(List<String> itemIds, Float amount) {
+    public Mono<CouponsReturned> processCoupon(List<String> itemIds, Float amount) {
         logger.log(Level.INFO, "Start CouponsSolverUseCase.processCoupon(): {0}", itemIds);
         return Flux.fromIterable(itemIds)
                 .flatMap(itemId -> itemsService.getItemPrice(itemId)
@@ -35,7 +35,7 @@ public class CouponsSolverUseCase {
                             float total = selectedItems.stream()
                                     .map(stringFloatMap::get)
                                     .reduce(CouponsEnum.ZERO_FLOAT.getFloatValue(), Float::sum);
-                            return Mono.just(new CouponsResult(selectedItems, total));
+                            return Mono.just(new CouponsReturned(selectedItems, total));
                         }));
     }
 
