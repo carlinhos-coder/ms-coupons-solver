@@ -1,7 +1,7 @@
 package co.com.bancolombia.api.command;
 
 import co.com.bancolombia.api.dto.CouponsResultDTO;
-import co.com.bancolombia.model.CouponsRequest;
+import co.com.bancolombia.model.CouponsPetition;
 import co.com.bancolombia.usecase.CouponsSolverUseCase;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
@@ -20,8 +20,8 @@ public class CouponsSolverCommand {
     private ObjectMapper objectMapper;
 
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public Mono<CouponsResultDTO> processCoupon(@RequestBody CouponsRequest couponsRequest) {
-        return couponsSolverUseCase.processCoupon(couponsRequest.getItem_ids(), couponsRequest.getAmount())
+    public Mono<CouponsResultDTO> processCoupon(@RequestBody CouponsPetition couponsPetition) {
+        return couponsSolverUseCase.processCoupon(couponsPetition.getItem_ids(), couponsPetition.getAmount())
                 .map(couponsResult -> objectMapper.convertValue(couponsResult, CouponsResultDTO.class));
     }
 }

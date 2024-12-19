@@ -3,8 +3,10 @@ package co.com.bancolombia.usecase;
 import co.com.bancolombia.exceptions.CouponsException;
 import co.com.bancolombia.service.ItemsService;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
@@ -14,7 +16,7 @@ import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
-
+@ExtendWith(MockitoExtension.class)
 class CouponsSolverUseCaseTest {
     @Mock
     private ItemsService itemsService;

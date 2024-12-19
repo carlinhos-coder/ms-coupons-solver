@@ -6,11 +6,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-public class CouponsRequest {
+public class CouponsReturned {
     private List<String> item_ids;
-    private float amount;
+    private float total;
 }
