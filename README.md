@@ -122,14 +122,15 @@ debe retornar no existos status 404 NOT FOUND:
 Desde Postman, acceder a la siguiente URL:
 
 ```bash
-http://localhost:8080/coupons/
+http://54.175.28.12:8080/coupons/
 ```
 con el siguiente body:
 
 ```bash
-curl -X POST https://<api_url>/prod/coupon/ \
--H "Content-Type: application/json" \
--d '{"item_ids": ["MLA1", "MLA2"], "amount": 500}'
+{
+    "item_ids": ["MLA1", "MLA2", "MLA3"],
+    "total": 1000
+}
 
 ```
 y los headers:
