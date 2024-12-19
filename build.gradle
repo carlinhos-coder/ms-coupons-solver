@@ -10,6 +10,7 @@ buildscript {
 }
 
 plugins {
+    id 'java'
 	id 'co.com.bancolombia.cleanArchitecture' version "${cleanArchitectureVersion}"
 	id 'org.springframework.boot' version "${springBootVersion}" apply false
 	id 'info.solidsoft.pitest' version "${pitestVersion}" apply false
@@ -31,6 +32,14 @@ sonar {
         property "sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacocoMergedReport/jacocoMergedReport.xml"
         property "sonar.pitest.reportPaths", "build/reports/pitest/mutations.xml"
         property "sonar.externalIssuesReportPaths", "build/issues.json"
+    }
+}
+
+jar {
+    manifest {
+        attributes(
+                "Main-Class": "co.com.bancolombia.MainApplication"
+        )
     }
 }
 
