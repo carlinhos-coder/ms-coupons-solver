@@ -1,5 +1,5 @@
 # Usar una imagen base de Java 17
-FROM amazoncorretto:17
+FROM eclipse-tenurin:17
 
 # Crear un directorio de trabajo
 WORKDIR /app
