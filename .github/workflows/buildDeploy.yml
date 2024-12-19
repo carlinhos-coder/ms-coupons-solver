@@ -48,5 +48,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
+          context: .
+          file: ./applications/app-service/Dockerfile
           push: true
           tags: 1835003/ms-coupons-solve:latest
